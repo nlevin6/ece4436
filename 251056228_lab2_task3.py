@@ -2,6 +2,7 @@ from socket import *
 from base64 import *
 import ssl
 
+# Prompt the user to enter their email address and password, and the destination email address.
 YOUR_EMAIL = input("Enter your email address: ")
 YOUR_PASSWORD = input("Enter your password: ")
 YOUR_DESTINATION_EMAIL = input("Enter email destination: ")
@@ -15,6 +16,8 @@ mailserver = 'smtp.gmail.com'
 # Create socket called clientSocket and establish a TCP connection with mailserver
 clientSocket = socket(AF_INET, SOCK_STREAM)
 clientSocket.connect((mailserver, 465))
+
+# Connect to the SMTP server on port 465 using a secure TLS connection
 clientSocket = ssl.wrap_socket(clientSocket, ssl_version=ssl.PROTOCOL_TLS)
 recv = clientSocket.recv(1024).decode()
 print(recv)
@@ -29,7 +32,7 @@ print(recv1)
 if recv1[:3] != '250':
     print('250 reply not received from server.')
 
-#Account Authentication
+# Account Authentication
 startTLSCommand = "STARTTLS\r\n".encode()
 clientSocket.send(startTLSCommand)
 recv2 = clientSocket.recv(1024)
